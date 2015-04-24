@@ -11,6 +11,10 @@ public class Point {
         this._y = y;
     }
 
+    public static Point UndefinedPoint() {
+        return new Point(Double.NaN, Double.NaN);
+    }
+
     public double getY() {
         return this._y;
     }

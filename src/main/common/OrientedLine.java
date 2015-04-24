@@ -36,16 +36,48 @@ public class OrientedLine {
         this._c = c;
     }
 
+    private Point[] getTwoPoints() {
+        Point a, b;
+
+        if (this._n.getY() != 0) {
+            a = new Point(0, -this._c / this._n.getY());
+            b = a.add(this._n.rotate90Right());
+        } else {
+            a = new Point(0, 0);
+            b = new Point(0, 1);
+        }
+
+        return new Point[]{a, b};
+    }
+
     /**
+     * http://en.wikipedia.org/wiki/Line–line_intersection#Given_two_points_on_each_line
      * @param s
      * @return
      */
     public Point intersection(OrientedLine s) {
-        if (this._n.equals(s.getN())) {
-            return new Point(Double.NaN, Double.NaN);
+        double dot = this._n.dotProduct(s.getN());
+        if (dot == 1 || dot == -1) {
+            if (this._c == s.getC()) {
+                return Point.UndefinedPoint();
+            } else {
+                return Point.UndefinedPoint();
+            }
         } else {
+            Point[] points = this.getTwoPoints();
+            // TODO
             return null;
         }
+    }
+
+    /**
+     * Returns the distance with sign of point from the line.
+     *
+     * @param p
+     * @return Interpreteation when distance has positive sign point lies in positive half space. Otherwise in negative half space.
+     */
+    public double distance(Point p) {
+        return this._n.dotProduct(p) - this._c;
     }
 
     @Override
