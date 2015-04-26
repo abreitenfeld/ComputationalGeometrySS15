@@ -31,45 +31,135 @@ public class Point {
         this._x = x;
     }
 
+    /**
+     * Dot product operator for two points.
+     *
+     * @param b
+     * @return
+     */
     public double dotProduct(Point b) {
         return b._x * this._x + b._y * this._y;
     }
 
+    /**
+     * Add operator for two points.
+     *
+     * @param b
+     * @return
+     */
     public Point add(Point b) {
-        return new Point(this.getX() + b.getX(), this.getY() + b.getY());
+        return new Point(this._x + b._x, this._y + b._y);
     }
 
+    /**
+     * Substract operator for two points.
+     *
+     * @param b
+     * @return
+     */
     public Point subtract(Point b) {
-        return new Point(this.getX() - b.getX(), this.getY() - b.getY());
+        return new Point(this._x - b._x, this._y - b._y);
     }
 
+    /**
+     * Multiplies the point with a given scalar.
+     *
+     * @param scalar Multiplication scalar
+     * @return
+     */
+    public Point multiply(double scalar) {
+        return new Point(this._x * scalar, this._y * scalar);
+    }
+
+    /**
+     * Multiplies the point with a given point.
+     *
+     * @param b Second point
+     * @return
+     */
+    public Point multiply(Point b) {
+        return new Point(this._x * b._x, this._y * b._y);
+    }
+
+    /**
+     * Divides the point with a given scalar.
+     *
+     * @param scalar Division scalar
+     * @return
+     */
+    public Point divide(double scalar) {
+        return new Point(this._x / scalar, this._y / scalar);
+    }
+
+    /**
+     * Divides the point with a given point.
+     *
+     * @param b Second point
+     * @return
+     */
+    public Point divide(Point b) {
+        return new Point(this._x / b._x, this._y / b._y);
+    }
+
+    /**
+     * Calculates the length of the point.
+     *
+     * @return
+     */
     public double magnitude() {
         return Math.sqrt(this._x * this._x + this._y * this._y);
     }
 
+    /**
+     * Normalizes the point.
+     *
+     * @return
+     */
     public Point normalize() {
         double magnitude = this.magnitude();
         return new Point(this._x / magnitude, this._y / magnitude);
     }
 
-    public Point rotate90Left() {
+    /**
+     * Rotate the point 90 degrees counter-clockwise.
+     *
+     * @return
+     */
+    public Point rotate90CCW() {
         return new Point(
                 -this._y,
                 this._x
         );
     }
 
-    public Point rotate90Right() {
+    /**
+     * Rotate the point 90 degrees clockwise.
+     *
+     * @return
+     */
+    public Point rotate90CW() {
         return new Point(
                 this._y,
                 -this._x
         );
     }
 
+    /**
+     * Rotate the point in plane from given degrees.
+     *
+     * @param deg
+     * @return
+     */
     public Point rotate(double deg) {
         return rotateRad(Math.toRadians(deg));
     }
 
+    /**
+     * Rotate the point in plane from given radian.
+     *
+     * @param rad
+     * @return
+     */
     private Point rotateRad(double rad) {
         return new Point(
                 Math.cos(rad) * this._x - Math.sin(rad) * this._y,

@@ -1,8 +1,6 @@
 package main.gui;
 
-
-import main.common.OrientedLine;
-import main.common.Point;
+import main.common.*;
 
 public class TestRunner {
 
@@ -22,27 +20,30 @@ public class TestRunner {
     }
 
     private static void TestB() {
-        Point p = new Point(0, 10);
+        // TODO
+        /*Point p = new Point(0, 10);
         Point q = new Point(1, 10);
         OrientedLine line = new OrientedLine(p, q);
         System.out.println(line.toString());
-        System.out.println(line.getN().magnitude());
+        System.out.println(line.getN().magnitude());*/
     }
 
     private static void TestC() {
-        Point p = new Point(0, 10);
+        // TODO
+        /*Point p = new Point(0, 10);
         Point q = new Point(1, 10);
         OrientedLine line = new OrientedLine(p, q);
         System.out.println(line.toString());
-        System.out.println(line.getN().magnitude());
+        System.out.println(line.getN().magnitude());*/
     }
 
     private static void TestD() {
-        Point p = new Point(0, 10);
+        // TODO
+        /*Point p = new Point(0, 10);
         Point q = new Point(1, 10);
         OrientedLine line = new OrientedLine(p, q);
         System.out.println(line.toString());
-        System.out.println(line.getN().magnitude());
+        System.out.println(line.getN().magnitude());*/
     }
 
 
