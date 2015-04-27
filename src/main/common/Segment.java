@@ -33,6 +33,10 @@ public class Segment {
         this._q = q;
     }
 
+    public Point getNormal() {
+        return this._q.subtract(this._p).rotate90CCW().normalize();
+    }
+
     /**
      * Calculates the intersection of two segments.
      *
@@ -45,12 +49,12 @@ public class Segment {
                 new Point[]{s._p, s._q}
         );
 
-        if (!intersection.equals(Point.UndefinedPoint()) &&
+        if (!intersection.equals(Point.Undefined()) &&
                 this.boundsContainsPoint(intersection) &&
                 s.boundsContainsPoint(intersection)) {
             return intersection;
         } else {
-            return Point.UndefinedPoint();
+            return Point.Undefined();
         }
 
     }

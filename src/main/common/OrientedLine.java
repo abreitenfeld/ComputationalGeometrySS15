@@ -93,7 +93,7 @@ public class OrientedLine {
             return new Point(a, b);
         } else {
             // case lines are parallel
-            return Point.UndefinedPoint();
+            return Point.Undefined();
         }
     }
 
@@ -107,9 +107,9 @@ public class OrientedLine {
         double dot = this._n.dotProduct(s.getN());
         if (dot == 1 || dot == -1) {
             if (this._c == s.getC()) {
-                return Point.UndefinedPoint();
+                return Point.Undefined();
             } else {
-                return Point.UndefinedPoint();
+                return Point.Undefined();
             }
         } else {
             return intersectionFromPoints(this.getTwoPoints(), s.getTwoPoints());

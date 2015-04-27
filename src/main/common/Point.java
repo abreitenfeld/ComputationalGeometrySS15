@@ -21,8 +21,24 @@ public class Point {
      * Undefined point representation.
      * @return A point with NaN as coordinates
      */
-    public static Point UndefinedPoint() {
+    public static Point Undefined() {
         return new Point(Double.NaN, Double.NaN);
+    }
+
+    public static Point Zero() {
+        return new Point(0, 0);
+    }
+
+    public static Point One() {
+        return new Point(1, 1);
+    }
+
+    public static Point Up() {
+        return new Point(0, 1);
+    }
+
+    public static Point Right() {
+        return new Point(1, 0);
     }
 
     public double getY() {
