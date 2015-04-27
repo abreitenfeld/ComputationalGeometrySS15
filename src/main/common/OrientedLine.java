@@ -54,7 +54,7 @@ public class OrientedLine {
     }
 
     /**
-     * Calcultes two representative points of the line.
+     * Calculates two representative points of the line.
      *
      * @return An array of two points
      */
@@ -78,7 +78,7 @@ public class OrientedLine {
      *
      * @param lineOne
      * @param lineTwo
-     * @return
+     * @return Returns a valid point if an intersection exists. Otherwise returns an undefined point.
      */
     public static Point intersectionFromPoints(Point[] lineOne, Point[] lineTwo) {
         double x_1 = lineOne[0].getX(), y_1 = lineOne[0].getY();
@@ -88,8 +88,8 @@ public class OrientedLine {
 
         double divisor = (x_1 - x_2) * (y_3 - y_4) - (y_1 - y_2) * (x_3 - x_4);
         if (divisor != 0) {
-            double a = ((x_1 * y_2 - y_1 * x_2) * (x_3 - x_4) - (x_1 - x_2) * (x_3 * y_4 - y_3 * x_4) / divisor);
-            double b = ((x_1 * y_2 - y_1 * x_2) * (y_3 - y_4) - (y_1 - y_2) * (x_3 * y_4 - y_3 * x_4) / divisor);
+            double a = ((x_1 * y_2 - y_1 * x_2) * (x_3 - x_4) - (x_1 - x_2) * (x_3 * y_4 - y_3 * x_4)) / divisor;
+            double b = ((x_1 * y_2 - y_1 * x_2) * (y_3 - y_4) - (y_1 - y_2) * (x_3 * y_4 - y_3 * x_4)) / divisor;
             return new Point(a, b);
         } else {
             // case lines are parallel
@@ -117,13 +117,13 @@ public class OrientedLine {
     }
 
     /**
-     * Returns the distance with sign of point from the line.
+     * Returns the distance with sign of a point from the line.
      *
      * @param p
-     * @return Interpreteation when distance has positive sign point lies in positive half space. Otherwise in negative half space.
+     * @return Interpretation when distance has positive sign point lies in positive half space. Otherwise in negative half space.
      */
     public double distance(Point p) {
-        return this._n.dotProduct(p) - this._c;
+        return this._n.dotProduct(p) + this._c;
     }
 
     @Override

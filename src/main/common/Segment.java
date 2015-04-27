@@ -37,7 +37,7 @@ public class Segment {
      * Calculates the intersection of two segments.
      *
      * @param s
-     * @return
+     * @return Returns a valid point if an intersection exists. Otherwise returns an undefined point.
      */
     public Point intersection(Segment s) {
         Point intersection = OrientedLine.intersectionFromPoints(
@@ -45,7 +45,9 @@ public class Segment {
                 new Point[]{s._p, s._q}
         );
 
-        if (!intersection.equals(Point.UndefinedPoint()) && this.boundsContainsPoint(intersection)) {
+        if (!intersection.equals(Point.UndefinedPoint()) &&
+                this.boundsContainsPoint(intersection) &&
+                s.boundsContainsPoint(intersection)) {
             return intersection;
         } else {
             return Point.UndefinedPoint();

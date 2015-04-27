@@ -6,11 +6,21 @@ public class Point {
     private double _x;
     private double _y;
 
+    /**
+     * Constructor of a point.
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     */
     public Point(double x, double y) {
         this._x = x;
         this._y = y;
     }
 
+    /**
+     * Undefined point representation.
+     * @return A point with NaN as coordinates
+     */
     public static Point UndefinedPoint() {
         return new Point(Double.NaN, Double.NaN);
     }
