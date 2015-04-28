@@ -80,20 +80,20 @@ public class CanvasPanel extends JPanel implements ActionListener, MouseWheelLis
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // tranoform g
+        // translate origin
         int halfWidth = (int) (this.getWidth() * 0.5f);
         int halfHeight = (int) (this.getHeight() * 0.5f);
         g2d.translate(halfWidth, halfHeight);
-        // scale
-        g2d.scale(this._scale, -this._scale);
 
+        // scale transform
+        g2d.scale(this._scale, -this._scale);
 
         // draw center
         g.setColor(Color.lightGray);
         g.drawLine(-halfWidth, 0, halfWidth, 0);
         g.drawLine(0, -halfHeight, 0, halfHeight);
 
-        // draw object
+        // draw objects
         for (Drawable drawable : this._drawables) {
             drawable.draw(g2d);
         }
