@@ -14,6 +14,8 @@ public class TestRunner {
         TestB();
         TestC();
         TestD();
+
+        TestUI();
     }
 
     private static void setUp() {
@@ -77,6 +79,16 @@ public class TestRunner {
         // case 2: there is no intersection
         Point intersectionC = segmentA.intersection(segmentC);
         System.out.println(intersectionC.toString());
+    }
+
+    private static void TestUI() {
+        CanvasPanel panel = CanvasPanel.createFrame();
+
+        panel.addDrawable(new Point(10, 10));
+        panel.addDrawable(new Point(0, -10));
+        panel.addDrawable(segmentA);
+        panel.addDrawable(segmentB);
+        panel.addDrawable(segmentC);
     }
 
 }

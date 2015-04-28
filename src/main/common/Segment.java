@@ -1,7 +1,9 @@
 package main.common;
 
 
-public class Segment {
+import java.awt.*;
+
+public class Segment implements Drawable {
 
     private Point _p;
     private Point _q;
@@ -81,5 +83,9 @@ public class Segment {
         return this.getP().subtract(this.getQ()).magnitude();
     }
 
-
+    @Override
+    public void draw(Graphics2D g) {
+        g.setColor(Color.black);
+        g.drawLine((int) this._p.getX(), (int) this._p.getY(), (int) this._q.getX(), (int) this._q.getY());
+    }
 }

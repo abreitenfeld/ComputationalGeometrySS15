@@ -1,11 +1,14 @@
 package main.common;
 
+import java.awt.*;
 import java.util.*;
 
-public class ConvexPolygon {
+public class ConvexPolygon implements Drawable {
 
     private final Point[] _points;
     private final Segment[] _segments;
+
+    private static final Color DEFAULT_COLOR = new Color(135, 206, 250, 100);
 
     /**
      * Constructs a polygon from a list of points.
@@ -74,5 +77,18 @@ public class ConvexPolygon {
         return normals;
     }
 
+    @Override
+    public void draw(Graphics2D g) {
+        int[] xPoints = new int[this._points.length], yPoints = new int[this._points.length];
 
+        for (int i = 0; i < this._points.length; i++) {
+            xPoints[i] = (int) this._points[i].getX();
+            yPoints[i] = (int) this._points[i].getY();
+        }
+
+        g.setColor(DEFAULT_COLOR);
+        g.fillPolygon(xPoints, yPoints, this._points.length);
+        g.setColor(Color.black);
+        g.drawPolygon(xPoints, yPoints, this._points.length);
+    }
 }

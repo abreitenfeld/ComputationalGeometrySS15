@@ -1,7 +1,9 @@
 package main.common;
 
 
-public class Point {
+import java.awt.*;
+
+public class Point implements Drawable {
 
     private double _x;
     private double _y;
@@ -191,6 +193,26 @@ public class Point {
                 Math.cos(rad) * this._x - Math.sin(rad) * this._y,
                 Math.sin(rad) * this._x + Math.cos(rad) * this._y
         );
+    }
+
+    public static double angle(Point a, Point b) {
+        double cos = a.dotProduct(b) / (a.magnitude() * b.magnitude());
+        return Math.toDegrees(Math.acos(cos));
+    }
+
+    public static double distance(Point a, Point b) {
+        return b.subtract(a).magnitude();
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        final int outlineDiameter = 4;
+        final int insertDiameter = 2;
+        g.setStroke(new BasicStroke(1));
+        g.setColor(Color.BLACK);
+        //g.fillOval((int)(this._x - outlineDiameter * 0.5f), (int)(this._y - outlineDiameter * 0.5f), outlineDiameter, outlineDiameter);
+        g.setColor(Color.BLUE);
+        g.fillOval((int) (this._x - insertDiameter * 0.5f), (int) (this._y - insertDiameter * 0.5f), insertDiameter, insertDiameter);
     }
 
     @Override
