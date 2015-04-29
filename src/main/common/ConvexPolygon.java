@@ -59,6 +59,16 @@ public class ConvexPolygon extends Polygon {
         return antipodalPoints;
     }
 
+    public double getDiameter(){
+        double diameter = 0;
+        Point[][] antipodalPairs = getAntipodalPairs();
+        for (int i=0;i<getPointsCount();i++){
+            double dist = Point.distance(antipodalPairs[i][0],antipodalPairs[i][1]);
+            if (dist > diameter){diameter = dist;}
+        }
+        return diameter;
+    }
+
     @Override
     public void draw(Graphics2D g) {
         super.draw(g);
