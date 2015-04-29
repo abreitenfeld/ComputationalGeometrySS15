@@ -47,12 +47,8 @@ public class ConvexPolygon extends Polygon {
                 double distB = line.distance(normals[(k+1) % getPointsCount()]);
                 if (distA >= 0 && distB <= 0){
                     antipodalPoints[i][0] = _points[i];
-                    antipodalPoints[i][0] = _points[(k + 1) % getPointsCount()];
+                    antipodalPoints[i][1] = _points[(k + 1) % getPointsCount()];
                 }
-               /*if(Point.angle(vertexNormals[i].multiply(-1),normals[k]) <= 0 && Point.angle(vertexNormals[i].multiply(-1),normals[(k-1) % getPointsCount()]) <= 0){
-                   antipodalPoints[i][0] = _points[i];
-                   antipodalPoints[i][0] = _points[(k + 1) % getPointsCount()];
-               }*/
             }
         }
         return antipodalPoints;
