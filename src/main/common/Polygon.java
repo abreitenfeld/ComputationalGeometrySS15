@@ -7,6 +7,7 @@ public abstract class Polygon implements Drawable {
 
     protected final Point[] _points;
     protected final Segment[] _segments;
+    private boolean _drawNormals = true;
 
     private static final Color DEFAULT_COLOR = new Color(135, 206, 250, 100);
 
@@ -67,6 +68,23 @@ public abstract class Polygon implements Drawable {
     public void draw(Graphics2D g) {
         int[] xPoints = new int[this._points.length], yPoints = new int[this._points.length];
 
+        if (this._drawNormals) {
+            // draw vertex normals
+            g.setColor(Color.blue);
+            Point[] vertexNormals = this.getVertexNormals();
+            for (int i = 0; i < this.getPointsCount(); i++) {
+                this.drawLine(g, this._points[i], this._points[i].subtract(vertexNormals[i].multiply(8)));
+            }
+
+            // draw normals
+            g.setColor(Color.red);
+            Point[] normals = this.getNormals();
+            for (int i = 0; i < this.getPointsCount(); i++) {
+                Point segmentMid = this._segments[i].getP().add(this._segments[i].getQ().subtract(this._segments[i].getP()).multiply(0.5));
+                this.drawLine(g, segmentMid, segmentMid.subtract(normals[i].multiply(6)));
+            }
+        }
+
         for (int i = 0; i < this._points.length; i++) {
             xPoints[i] = (int) this._points[i].getX();
             yPoints[i] = (int) this._points[i].getY();
@@ -78,6 +96,9 @@ public abstract class Polygon implements Drawable {
         g.drawPolygon(xPoints, yPoints, this._points.length);
     }
 
+    protected void drawLine(Graphics2D g, Point p, Point q) {
+        g.drawLine((int) p.getX(), (int) p.getY(), (int) q.getX(), (int) q.getY());
+    }
 
 
 }
