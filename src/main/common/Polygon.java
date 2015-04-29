@@ -23,6 +23,9 @@ public abstract class Polygon implements Drawable {
         }
     }
 
+    public int getPointsCount(){
+        return this._points.length;
+    }
     /**
      * Calculates the center of scatter plot.
      *
@@ -42,12 +45,20 @@ public abstract class Polygon implements Drawable {
      *
      * @return Array with points
      */
+    public Point[] getVertexNormals() {
+        Point[] normals = new Point[this._segments.length];
+        for (int i = 0; i < this._segments.length; i++) {
+            Point normalA = this._segments[(this._segments.length + (i - 1)) % this._segments.length].getNormal();
+            Point normalB = this._segments[i].getNormal();
+            normals[i] = normalA.add(normalB).multiply(0.5).normalize();
+        }
+        return normals;
+    }
+
     public Point[] getNormals() {
         Point[] normals = new Point[this._segments.length];
         for (int i = 0; i < this._segments.length; i++) {
-            Point normalA = this._segments[(i - 1) % this._segments.length].getNormal();
-            Point normalB = this._segments[i].getNormal();
-            normals[i] = normalA.add(normalB).divide(2).normalize();
+            normals[i] = this._segments[i].getNormal();
         }
         return normals;
     }
@@ -66,5 +77,7 @@ public abstract class Polygon implements Drawable {
         g.setColor(Color.black);
         g.drawPolygon(xPoints, yPoints, this._points.length);
     }
+
+
 
 }
