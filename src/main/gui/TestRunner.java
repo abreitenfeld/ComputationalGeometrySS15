@@ -33,8 +33,12 @@ public class TestRunner {
         segmentC = new Segment(new Point(0, 5), new Point(0, 10));
 
         polygonA = new ConvexPolygon(new Point[]{
-                new Point(0, 50), new Point(-40, 5), new Point(60, 6),
-                new Point(-30, -40), new Point(20, -30)
+                new Point(0, 50),
+                new Point(-40, 5),
+                new Point(60, 6),
+                new Point(-30, -40),
+                new Point(20, -30),
+                new Point(100, 80)
         });
     }
 

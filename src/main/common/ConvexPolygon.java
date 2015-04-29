@@ -43,13 +43,13 @@ public class ConvexPolygon extends Polygon {
         Point[] vertexNormals = getVertexNormals(); //Array mit den Normalen als Durschnittswert an den Ecken
         Point [][] antipodalPoints = new Point[getPointsCount()][2]; //das Array wo die antipodalen Punkten reinsollen
         Point[] normals = getNormals();
-        for (int i=0;i<getPointsCount();i++){
-            for (int k=0;k<getPointsCount();k++){
-                if (i != k) {
+        for (int i = 0; i < getPointsCount(); i++) {
+            for (int k = 0; k < getPointsCount(); k++) {
+                if (i != (k + 1) % getPointsCount()) {
                     OrientedLine line = new OrientedLine(vertexNormals[i].multiply(-1).rotate90CCW(), 0);
                     double distA = line.distance(normals[k]);
                     double distB = line.distance(normals[(k + 1) % getPointsCount()]);
-                    if (distA >= 0 && distB <= 0) {
+                    if (distA <= 0 && distB >= 0) {
                         antipodalPoints[i][0] = _points[i];
                         antipodalPoints[i][1] = _points[(k + 1) % getPointsCount()];
                     }
@@ -79,6 +79,10 @@ public class ConvexPolygon extends Polygon {
             for (int r = 0; r < pairs.length; r++) {
                 this.drawLine(g, pairs[r][0], pairs[r][1]);
             }
+
+            Point center = this.getCenter();
+            double diameter = this.getDiameter();
+            g.drawString(String.valueOf(Math.floor(diameter)), (int) Math.floor(center.getX()), (int) Math.floor(center.getY()));
         }
     }
 }

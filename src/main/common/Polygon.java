@@ -24,6 +24,10 @@ public abstract class Polygon implements Drawable {
         }
     }
 
+    public Point getCenter() {
+        return calculateCenter(this._points);
+    }
+
     public int getPointsCount(){
         return this._points.length;
     }
