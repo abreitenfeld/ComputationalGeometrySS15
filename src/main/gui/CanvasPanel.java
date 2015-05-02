@@ -1,6 +1,7 @@
 package main.gui;
 
-import main.common.Drawable;
+import main.common.*;
+import main.common.Point;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,19 +9,26 @@ import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CanvasPanel extends JPanel implements ActionListener, MouseWheelListener, MouseMotionListener {
+public class CanvasPanel extends JPanel implements MouseListener, MouseWheelListener, MouseMotionListener {
 
     private final List<Drawable> _drawables = new LinkedList<Drawable>();
 
-    private double _scale = 3;
+    private boolean _drawCaption = true;
+    private double _scale = 1.5;
+    private Point _selectedHandle = null;
 
     private static final double MIN_SCALE = 1;
     private static final double MAX_SCALE = 10;
+    private static final int HANDLE_RADIUS = 5;
 
+    /**
+     * Constructor of the panel.
+     */
     public CanvasPanel() {
         this.setOpaque(true);
         this.setBackground(Color.white);
 
+        this.addMouseListener(this);
         this.addMouseWheelListener(this);
         this.addMouseMotionListener(this);
     }
@@ -53,24 +61,75 @@ public class CanvasPanel extends JPanel implements ActionListener, MouseWheelLis
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void mouseClicked(MouseEvent e) {
+    }
 
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            Point mousePos = this.transformMousePosition(e.getX(), e.getY());
+            for (Drawable drawable : this._drawables) {
+                if (drawable instanceof Handle) {
+                    Point[] handles = ((Handle) drawable).getHandles();
+                    for (Point handle : handles) {
+                        if (Point.distance(handle, mousePos) <= HANDLE_RADIUS) {
+                            this._selectedHandle = handle;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (this._selectedHandle != null) {
+            Point mousePos = this.transformMousePosition(e.getX(), e.getY());
+            this._selectedHandle.setX(mousePos.getX());
+            this._selectedHandle.setY(mousePos.getY());
+            this.repaint();
+        }
+    }
 
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        this._selectedHandle = null;
+        this.repaint();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
+    }
 
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         this._scale = Math.min(Math.max(this._scale + e.getWheelRotation() * 0.1f, MIN_SCALE), MAX_SCALE);
         this.repaint();
+    }
+
+    /**
+     * Transform the screen position to coordinate space.
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    protected Point transformMousePosition(int x, int y) {
+        x = Math.max(Math.min(x, this.getWidth()), 0);
+        y = Math.max(Math.min(y, this.getHeight()), 0);
+        x -= (int) (this.getWidth() * 0.5f);
+        y -= (int) (this.getHeight() * 0.5f);
+        //y *= -1;
+        return new Point(x, y).divide(this._scale);
     }
 
     @Override
@@ -86,7 +145,7 @@ public class CanvasPanel extends JPanel implements ActionListener, MouseWheelLis
         g2d.translate(halfWidth, halfHeight);
 
         // scale transform
-        g2d.scale(this._scale, -this._scale);
+        g2d.scale(this._scale, this._scale);
 
         // draw center
         g.setColor(Color.lightGray);
@@ -96,6 +155,18 @@ public class CanvasPanel extends JPanel implements ActionListener, MouseWheelLis
         // draw objects
         for (Drawable drawable : this._drawables) {
             drawable.draw(g2d);
+        }
+
+        // draw caption
+        if (this._drawCaption) {
+            for (Drawable drawable : this._drawables) {
+                drawable.drawCaption(g2d);
+            }
+        }
+
+        // draw selected handle
+        if (this._selectedHandle != null) {
+            this._selectedHandle.draw(g2d);
         }
     }
 

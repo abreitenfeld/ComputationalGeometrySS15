@@ -3,13 +3,14 @@ package main.common;
 
 import java.awt.*;
 
-public abstract class Polygon implements Drawable {
+public abstract class Polygon implements Drawable, Handle {
 
     protected final Point[] _points;
     protected final Segment[] _segments;
     private boolean _drawNormals = true;
 
     private static final Color DEFAULT_COLOR = new Color(135, 206, 250, 100);
+    private static final float NORMAL_LENGTH = 15;
 
     /**
      * Base constructor
@@ -45,6 +46,11 @@ public abstract class Polygon implements Drawable {
         return center.divide(points.length);
     }
 
+    @Override
+    public Point[] getHandles() {
+        return this._points;
+    }
+
     /**
      * Calculates the interpolated normals on the vertices.
      *
@@ -77,7 +83,7 @@ public abstract class Polygon implements Drawable {
             g.setColor(Color.blue);
             Point[] vertexNormals = this.getVertexNormals();
             for (int i = 0; i < this.getPointsCount(); i++) {
-                this.drawLine(g, this._points[i], this._points[i].subtract(vertexNormals[i].multiply(8)));
+                this.drawLine(g, this._points[i], this._points[i].subtract(vertexNormals[i].multiply(NORMAL_LENGTH)));
             }
 
             // draw normals
@@ -85,7 +91,7 @@ public abstract class Polygon implements Drawable {
             Point[] normals = this.getNormals();
             for (int i = 0; i < this.getPointsCount(); i++) {
                 Point segmentMid = this._segments[i].getP().add(this._segments[i].getQ().subtract(this._segments[i].getP()).multiply(0.5));
-                this.drawLine(g, segmentMid, segmentMid.subtract(normals[i].multiply(6)));
+                this.drawLine(g, segmentMid, segmentMid.subtract(normals[i].multiply(NORMAL_LENGTH)));
             }
         }
 
@@ -98,6 +104,15 @@ public abstract class Polygon implements Drawable {
         g.fillPolygon(xPoints, yPoints, this._points.length);
         g.setColor(Color.black);
         g.drawPolygon(xPoints, yPoints, this._points.length);
+
+        for (Point point : this._points) {
+            point.draw(g);
+        }
+    }
+
+    @Override
+    public void drawCaption(Graphics2D g) {
+
     }
 
     protected void drawLine(Graphics2D g, Point p, Point q) {

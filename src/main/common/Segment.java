@@ -88,4 +88,9 @@ public class Segment implements Drawable {
         g.setColor(Color.black);
         g.drawLine((int) this._p.getX(), (int) this._p.getY(), (int) this._q.getX(), (int) this._q.getY());
     }
+
+    @Override
+    public void drawCaption(Graphics2D g) {
+
+    }
 }

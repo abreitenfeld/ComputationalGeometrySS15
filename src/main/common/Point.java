@@ -206,13 +206,18 @@ public class Point implements Drawable {
 
     @Override
     public void draw(Graphics2D g) {
-        final int outlineDiameter = 4;
-        final int insertDiameter = 2;
+        final int outlineDiameter = 6;
+        final int insertDiameter = 4;
         g.setStroke(new BasicStroke(1));
         g.setColor(Color.BLACK);
         //g.fillOval((int)(this._x - outlineDiameter * 0.5f), (int)(this._y - outlineDiameter * 0.5f), outlineDiameter, outlineDiameter);
         g.setColor(Color.BLUE);
         g.fillOval((int) (this._x - insertDiameter * 0.5f), (int) (this._y - insertDiameter * 0.5f), insertDiameter, insertDiameter);
+    }
+
+    @Override
+    public void drawCaption(Graphics2D g) {
+
     }
 
     @Override

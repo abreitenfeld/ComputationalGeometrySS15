@@ -4,5 +4,18 @@ import java.awt.*;
 
 public interface Drawable {
 
-    public void draw(Graphics2D g);
+    /**
+     * Draws the shape of the geometric object
+     *
+     * @param g Graphics object
+     */
+    void draw(Graphics2D g);
+
+    /**
+     * Draw the caption of the geometric object.
+     *
+     * @param g Graphics object
+     */
+    void drawCaption(Graphics2D g);
+
 }

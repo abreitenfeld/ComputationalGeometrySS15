@@ -95,18 +95,7 @@ public class TestRunner {
         CanvasPanel panel = CanvasPanel.createFrame();
 
         panel.addDrawable(polygonA);
-        /*panel.addDrawable(new Point(10, 10));
-        panel.addDrawable(new Point(0, -10));
-        panel.addDrawable(segmentA);
-        panel.addDrawable(segmentB);
-        panel.addDrawable(segmentC);*/
-
-        //System.out.println(Point.angle(new Point(0, 10), new Point(-5, 10)));
-        //System.out.println(Point.angle(new Point(-5, 10), new Point(0, 10)));
-
-        //System.out.println(new Point(0, 10).normalize().dotProduct(new Point(-5, 10).normalize()));
-        //System.out.println(new Point(-5, 10).normalize().dotProduct(new Point(0, 10).normalize()));
-
+        panel.repaint();
     }
 
 }
