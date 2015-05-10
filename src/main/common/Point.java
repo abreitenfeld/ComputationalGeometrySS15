@@ -139,6 +139,15 @@ public class Point implements Drawable {
     }
 
     /**
+     * Calculates the length of the point.
+     *
+     * @return
+     */
+    public double sqrMagnitude() {
+        return this._x * this._x + this._y * this._y;
+    }
+
+    /**
      * Normalizes the point.
      *
      * @return
@@ -202,6 +211,10 @@ public class Point implements Drawable {
 
     public static double distance(Point a, Point b) {
         return b.subtract(a).magnitude();
+    }
+
+    public static double sqrDistance(Point a, Point b) {
+        return b.subtract(a).sqrMagnitude();
     }
 
     @Override

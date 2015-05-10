@@ -7,7 +7,7 @@ public abstract class Polygon implements Drawable, Handle {
 
     protected final Point[] _points;
     protected final Segment[] _segments;
-    private boolean _drawNormals = true;
+    protected boolean _drawNormals = true;
 
     private static final Color DEFAULT_COLOR = new Color(135, 206, 250, 100);
     private static final float NORMAL_LENGTH = 15;
@@ -61,7 +61,7 @@ public abstract class Polygon implements Drawable, Handle {
         for (int i = 0; i < this._segments.length; i++) {
             Point normalA = this._segments[(this._segments.length + (i - 1)) % this._segments.length].getNormal();
             Point normalB = this._segments[i].getNormal();
-            normals[i] = normalA.add(normalB).multiply(0.5).normalize();
+            normals[i] = normalA.add(normalB).normalize();
         }
         return normals;
     }

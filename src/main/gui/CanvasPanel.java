@@ -6,6 +6,7 @@ import main.common.Point;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,6 +53,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseWheelList
 
     public CanvasPanel addDrawable(Drawable drawable) {
         this._drawables.add(drawable);
+        return this;
+    }
+
+    public CanvasPanel addDrawable(Drawable[] drawable) {
+        this._drawables.addAll(Arrays.asList(drawable));
         return this;
     }
 

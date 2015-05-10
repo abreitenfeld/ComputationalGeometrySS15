@@ -58,7 +58,7 @@ public class ConvexPolygon extends Polygon {
         Point[] normals = this.getNormals();
 
         for (int i = 0; i < this.getPointsCount(); i++) {
-            OrientedLine line = new OrientedLine(vertexNormals[i].multiply(-1).rotate90CCW(), 0);
+            OrientedLine line = new OrientedLine(vertexNormals[i].rotate90CW(), 0);
             for (int k = 0; k < this.getPointsCount(); k++) {
                 if (i != (k + 1) % this.getPointsCount()) {
                     double distA = line.distance(normals[k]);

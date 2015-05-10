@@ -2,6 +2,9 @@ package main.gui;
 
 import main.common.*;
 
+import java.util.LinkedList;
+import java.util.Random;
+
 public class TestRunner {
 
     private static Point ptA, ptB;
@@ -11,12 +14,13 @@ public class TestRunner {
 
     public static void main(String[] args) {
         setUp();
-        /*TestA();
-        TestB();
+        //TestA();
+        //TestB();
         TestC();
-        TestD();*/
+        //TestD();
 
-        TestUI();
+        //TestUI();
+        TestGrahamScan();
     }
 
     private static void setUp() {
@@ -95,6 +99,24 @@ public class TestRunner {
         CanvasPanel panel = CanvasPanel.createFrame();
 
         panel.addDrawable(polygonA);
+        panel.repaint();
+    }
+
+    private static void TestGrahamScan() {
+        final double spread = 500;
+        CanvasPanel panel = CanvasPanel.createFrame();
+
+        Point[] randomPoints = new Point[100];
+        Random rnd = new Random();
+        for (int i = 0; i < randomPoints.length; i++) {
+            randomPoints[i] = new Point(rnd.nextDouble(), rnd.nextDouble()).multiply(spread).subtract(Point.One().multiply(spread * 0.5f));
+        }
+
+        GrahamScan polygonGraham = new GrahamScan(randomPoints);
+
+
+        panel.addDrawable(polygonGraham);
+        panel.addDrawable(randomPoints);
         panel.repaint();
     }
 
