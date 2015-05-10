@@ -8,4 +8,6 @@ public interface Handle {
      * @return Array with points.
      */
     Point[] getHandles();
+
+    void handleMoved(Point handle);
 }

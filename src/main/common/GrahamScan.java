@@ -1,16 +1,32 @@
 package main.common;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Stack;
 
 public class GrahamScan extends Polygon {
 
+    private final Point[] _originalPoints;
 
     public GrahamScan(Point[] points) {
         super(computeGrahamScan(points));
 
+        this._originalPoints = points;
         this._drawNormals = false;
+    }
+
+    @Override
+    public Point[] getHandles() {
+        return this._originalPoints;
+    }
+
+    @Override
+    public void handleMoved(Point handle) {
+        super.handleMoved(handle);
+        this.recalculateConvexHull();
+    }
+
+    public void recalculateConvexHull() {
+        this.setPoints(computeGrahamScan(this._originalPoints));
     }
 
     private static Point[] computeGrahamScan(Point[] points) {

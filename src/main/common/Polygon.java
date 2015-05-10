@@ -5,9 +5,11 @@ import java.awt.*;
 
 public abstract class Polygon implements Drawable, Handle {
 
-    protected final Point[] _points;
-    protected final Segment[] _segments;
+    protected Point[] _points;
+    protected Segment[] _segments;
     protected boolean _drawNormals = true;
+    protected boolean _drawCaption = true;
+    protected boolean _drawHandles = true;
 
     private static final Color DEFAULT_COLOR = new Color(135, 206, 250, 100);
     private static final float NORMAL_LENGTH = 15;
@@ -16,13 +18,26 @@ public abstract class Polygon implements Drawable, Handle {
      * Base constructor
      */
     protected Polygon(Point[] points) {
-        this._points = points;
-        this._segments = new Segment[this._points.length];
+        this.setPoints(points);
+    }
+
+    protected static Segment[] InterconnectPoints(Point[] points) {
+        Segment[] segments = new Segment[points.length];
 
         // create segments from points
-        for (int i = 0; i < this._points.length; i++) {
-            this._segments[i] = new Segment(this._points[i], this._points[(i + 1) % this._points.length]);
+        for (int i = 0; i < points.length; i++) {
+            segments[i] = new Segment(points[i], points[(i + 1) % points.length]);
         }
+        return segments;
+    }
+
+    public Point[] getPoints() {
+        return this._points;
+    }
+
+    public void setPoints(Point[] points) {
+        this._points = points;
+        this._segments = InterconnectPoints(points);
     }
 
     public Point getCenter() {
@@ -49,6 +64,11 @@ public abstract class Polygon implements Drawable, Handle {
     @Override
     public Point[] getHandles() {
         return this._points;
+    }
+
+    @Override
+    public void handleMoved(Point handle) {
+
     }
 
     /**
@@ -105,8 +125,18 @@ public abstract class Polygon implements Drawable, Handle {
         g.setColor(Color.black);
         g.drawPolygon(xPoints, yPoints, this._points.length);
 
-        for (Point point : this._points) {
-            point.draw(g);
+        // draw points
+        if (this._drawHandles) {
+            for (Point point : this.getHandles()) {
+                point.draw(g);
+            }
+
+            // draw caption of points
+            if (this._drawCaption) {
+                for (Point point : this.getHandles()) {
+                    point.drawCaption(g);
+                }
+            }
         }
     }
 

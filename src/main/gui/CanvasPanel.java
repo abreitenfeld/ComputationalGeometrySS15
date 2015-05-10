@@ -17,6 +17,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseWheelList
     private boolean _drawCaption = true;
     private double _scale = 1.5;
     private Point _selectedHandle = null;
+    private Handle _handleOwner = null;
 
     private static final double MIN_SCALE = 1;
     private static final double MAX_SCALE = 10;
@@ -80,6 +81,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseWheelList
                     for (Point handle : handles) {
                         if (Point.distance(handle, mousePos) <= HANDLE_RADIUS) {
                             this._selectedHandle = handle;
+                            this._handleOwner = (Handle) drawable;
                             break;
                         }
                     }
@@ -94,6 +96,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseWheelList
             Point mousePos = this.transformMousePosition(e.getX(), e.getY());
             this._selectedHandle.setX(mousePos.getX());
             this._selectedHandle.setY(mousePos.getY());
+            this._handleOwner.handleMoved(this._selectedHandle);
             this.repaint();
         }
     }
