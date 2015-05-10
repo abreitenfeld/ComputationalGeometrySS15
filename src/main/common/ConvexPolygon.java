@@ -14,7 +14,7 @@ public class ConvexPolygon extends Polygon {
      * @param points
      */
     public ConvexPolygon(Point[] points) {
-        super(sortVerticesClockwise(points));
+        super(sortByPolarCoordinates(points));
     }
 
     /**
@@ -24,7 +24,7 @@ public class ConvexPolygon extends Polygon {
      * @param points
      * @return Sorted array
      */
-    private static Point[] sortVerticesClockwise(Point[] points) {
+    public static Point[] sortByPolarCoordinates(Point[] points) {
         final Point center = calculateCenter(points);
 
         // sort points clockwise

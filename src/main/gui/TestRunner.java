@@ -1,8 +1,6 @@
 package main.gui;
 
 import main.common.*;
-
-import java.util.LinkedList;
 import java.util.Random;
 
 public class TestRunner {
@@ -10,13 +8,12 @@ public class TestRunner {
     private static Point ptA, ptB;
     private static OrientedLine lineA, lineB, lineC, lineD;
     private static Segment segmentA, segmentB, segmentC;
-    private static Polygon polygonA;
 
     public static void main(String[] args) {
         setUp();
         //TestA();
         //TestB();
-        TestC();
+        //TestC();
         //TestD();
 
         //TestUI();
@@ -35,15 +32,6 @@ public class TestRunner {
         segmentA = new Segment(new Point(-2, 0), new Point(2, 4));
         segmentB = new Segment(new Point(-2, 4), new Point(2, 0));
         segmentC = new Segment(new Point(0, 5), new Point(0, 10));
-
-        polygonA = new ConvexPolygon(new Point[]{
-                new Point(0, 50),
-                new Point(-40, 5),
-                new Point(60, 6),
-                new Point(-30, -40),
-                new Point(20, -30),
-                new Point(100, 80)
-        });
     }
 
     /**
@@ -97,6 +85,15 @@ public class TestRunner {
 
     private static void TestUI() {
         CanvasPanel panel = CanvasPanel.createFrame();
+
+        Polygon polygonA = new ConvexPolygon(new Point[]{
+                new Point(0, 50),
+                new Point(-40, 5),
+                new Point(60, 6),
+                new Point(-30, -40),
+                new Point(20, -30),
+                new Point(100, 80)
+        });
 
         panel.addDrawable(polygonA);
         panel.repaint();

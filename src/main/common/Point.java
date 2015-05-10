@@ -2,11 +2,23 @@ package main.common;
 
 
 import java.awt.*;
+import java.util.Comparator;
 
 public class Point implements Drawable {
 
     private double _x;
     private double _y;
+
+    /**
+     * Compares two points by y-coordinate.
+     */
+    public static final Comparator<Point> Y_ORDER = new YOrder();
+
+    /**
+     * Compares two points by polar angle (between 0 and 2pi) with respect to this point.
+     */
+    public final Comparator<Point> POLAR_ORDER = new PolarOrder();
+
 
     /**
      * Constructor of a point.
@@ -41,6 +53,19 @@ public class Point implements Drawable {
 
     public static Point Right() {
         return new Point(1, 0);
+    }
+
+    /**
+     * Is a->b->c a counterclockwise turn?
+     *
+     * @param a first point
+     * @param b second point
+     * @param c third point
+     * @return { -1, 0, +1 } if a->b->c is a { clockwise, collinear; counterclocwise } turn.
+     */
+    public static int ccw(Point a, Point b, Point c) {
+        double area2 = (b._x - a._x) * (c._y - a._y) - (b._y - a._y) * (c._x - a._x);
+        return Double.compare(area2, 0);
     }
 
     public double getY() {
@@ -231,6 +256,44 @@ public class Point implements Drawable {
     @Override
     public void drawCaption(Graphics2D g) {
 
+    }
+
+    // compare points according to their y-coordinate
+    private static class YOrder implements Comparator<Point> {
+        public int compare(Point a, Point b) {
+            return Double.compare(a.getY(), b.getY());
+        }
+    }
+
+    // compare other points relative to polar angle (between 0 and 2pi) they make with this Point
+    private class PolarOrder implements Comparator<Point> {
+        public int compare(Point a, Point b) {
+            // calculate slope
+            double dx1 = a._x - Point.this._x;
+            double dy1 = a._y - Point.this._y;
+            double dx2 = b._x - Point.this._x;
+            double dy2 = b._y - Point.this._y;
+
+            if (dy1 >= 0 && dy2 < 0) {
+                // q1 above; q2 below
+                return -1;
+            } else if (dy2 >= 0 && dy1 < 0) {
+                // q1 below; q2 above
+                return +1;
+            } else if (dy1 == 0 && dy2 == 0) {
+                // 3-collinear and horizontal
+                if (dx1 >= 0 && dx2 < 0) {
+                    return -1;
+                } else if (dx2 >= 0 && dx1 < 0) {
+                    return +1;
+                } else {
+                    return 0;
+                }
+            } else {
+                // both above or below
+                return -ccw(Point.this, a, b);
+            }
+        }
     }
 
     @Override
