@@ -9,7 +9,7 @@ public abstract class Polygon implements Drawable, Handle {
     protected Segment[] _segments;
     protected boolean _drawNormals = true;
     protected boolean _drawCaption = true;
-    protected boolean _drawHandles = true;
+    protected boolean _drawVertices = true;
 
     private static final Color DEFAULT_COLOR = new Color(135, 206, 250, 100);
     private static final float NORMAL_LENGTH = 15;
@@ -126,14 +126,14 @@ public abstract class Polygon implements Drawable, Handle {
         g.drawPolygon(xPoints, yPoints, this._points.length);
 
         // draw points
-        if (this._drawHandles) {
-            for (Point point : this.getHandles()) {
+        if (this._drawVertices) {
+            for (Point point : this._points) {
                 point.draw(g);
             }
 
             // draw caption of points
             if (this._drawCaption) {
-                for (Point point : this.getHandles()) {
+                for (Point point : this._points) {
                     point.drawCaption(g);
                 }
             }

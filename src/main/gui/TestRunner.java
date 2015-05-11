@@ -110,10 +110,7 @@ public class TestRunner {
         }
 
         GrahamScan polygonGraham = new GrahamScan(randomPoints);
-
-
         panel.addDrawable(polygonGraham);
-        panel.addDrawable(randomPoints);
         panel.repaint();
     }
 

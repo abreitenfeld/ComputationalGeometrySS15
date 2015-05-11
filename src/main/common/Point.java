@@ -9,6 +9,8 @@ public class Point implements Drawable {
     private double _x;
     private double _y;
 
+    public static final int CIRCLE_DIAMETER = 7;
+
     /**
      * Compares two points by y-coordinate.
      */
@@ -244,12 +246,16 @@ public class Point implements Drawable {
 
     @Override
     public void draw(Graphics2D g) {
-        final int outlineDiameter = 6;
-        final int insertDiameter = 4;
+        this.draw(g, CIRCLE_DIAMETER, Color.blue);
+    }
+
+    public void draw(Graphics2D g, int diameter, Color dotColor) {
+        final int outlineDiameter = diameter + 2;
+        final int insertDiameter = diameter;
         g.setStroke(new BasicStroke(1));
-        g.setColor(Color.BLACK);
+        g.setColor(Color.darkGray);
         //g.fillOval((int)(this._x - outlineDiameter * 0.5f), (int)(this._y - outlineDiameter * 0.5f), outlineDiameter, outlineDiameter);
-        g.setColor(Color.BLUE);
+        g.setColor(dotColor);
         g.fillOval((int) (this._x - insertDiameter * 0.5f), (int) (this._y - insertDiameter * 0.5f), insertDiameter, insertDiameter);
     }
 
