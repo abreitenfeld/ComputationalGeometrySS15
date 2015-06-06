@@ -11,6 +11,12 @@ public class CSVParser {
     private final Reader _reader;
     private final String _delimiter;
 
+    /**
+     * Constructor of the parser.
+     *
+     * @param reader
+     * @param delimiter
+     */
     public CSVParser(Reader reader, String delimiter) {
         this._reader = reader;
         this._delimiter = delimiter;
@@ -28,6 +34,10 @@ public class CSVParser {
         return result;
     }
 
+    /**
+     * Closes the file reader.
+     * @throws IOException
+     */
     public void close() throws IOException {
         this._reader.close();
     }

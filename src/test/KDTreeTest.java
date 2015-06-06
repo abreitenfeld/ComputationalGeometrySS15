@@ -1,27 +1,41 @@
 package test;
 
-import main.io.CSVParser;
-import main.io.DataSet;
+import main.io.*;
+import main.kd.Dimension;
 import main.kd.KDTree;
 
-import java.io.*;
+import javax.swing.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
 
 public class KDTreeTest {
 
+
     public static void main(String[] args) throws Exception {
-        // open file reader
-        String fileNameDefined = "orte_deutschland.txt";
-        File file = new File(fileNameDefined);
+        final JFileChooser fc = new JFileChooser();
+        int returnVal = fc.showOpenDialog(new JFrame());
 
-        // parse input data
-        final Reader reader = new FileReader(file);
-        final CSVParser parser = new CSVParser(reader, "\t");
-        final DataSet data = new DataSet(parser.getRecords());
-        // close parser
-        parser.close();
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            // open file reader
+            File file = fc.getSelectedFile();
 
-        // instantiate KD-Tree
-        final KDTree tree = new KDTree(data);
+            // parse input data
+            final Reader reader = new FileReader(file);
+            final CSVParser parser = new CSVParser(reader, "\t");
+            final DataSet data = new DataSet(parser.getRecords());
+            // close parser
+            parser.close();
+
+            // instantiate KD-Tree
+            final KDTree tree = new KDTree(data,
+                    new Dimension(4, DataValue.ValueType.NUMERIC),
+                    new Dimension(5, DataValue.ValueType.NUMERIC)
+            );
+
+            tree.toString();
+
+        }
 
 
     }

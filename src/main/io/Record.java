@@ -1,22 +1,37 @@
 package main.io;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Record extends ArrayList<DataItem> {
+public class Record extends ArrayList<DataValue> {
 
-    protected final List<DataItem> _cells;
-
+    /**
+     * Constructor of a record
+     *
+     * @param values
+     */
     public Record(String[] values) {
-        this._cells = new ArrayList<DataItem>(values.length);
-
+        // encapsulate each value by an object of DataValue
         for (String value : values) {
-
+            try {
+                // try to parse double
+                Double dVal = Double.parseDouble(value);
+                this.add(new DoubleValue(dVal));
+            } catch (NumberFormatException e) {
+                // use string value as default
+                this.add(new StringValue(value));
+            }
         }
-
     }
 
-    public List<DataItem> getCells() {
-        return this._cells;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{ ");
+        for (DataValue value : this) {
+            sb.append(value.getValue().toString() + " ");
+        }
+        sb.append("}");
+
+        return sb.toString();
     }
 }
