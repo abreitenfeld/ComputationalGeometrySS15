@@ -11,14 +11,14 @@ public class Record extends ArrayList<DataValue> {
      */
     public Record(String[] values) {
         // encapsulate each value by an object of DataValue
-        for (String value : values) {
+        for (int i = 0; i < values.length; i++) {
             try {
                 // try to parse double
-                Double dVal = Double.parseDouble(value);
+                Double dVal = Double.parseDouble(values[i]);
                 this.add(new DoubleValue(dVal));
             } catch (NumberFormatException e) {
                 // use string value as default
-                this.add(new StringValue(value));
+                this.add(new StringValue(values[i]));
             }
         }
     }

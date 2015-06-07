@@ -16,6 +16,7 @@ public class KDTreeNode {
     protected final KDTreeNode[] _childNodes = new KDTreeNode[3];
     protected final Dimension[] _dimensions;
 
+    protected DataValue _splitValue;
     protected Dimension _splitDimension;
 
     /**
@@ -30,19 +31,42 @@ public class KDTreeNode {
         this._dimensions = dimensions;
     }
 
-    protected List<Record> getData() {
+    /**
+     * Returns true if the node is leaf.
+     *
+     * @return
+     */
+    public boolean isLeaf() {
+        return this.getLowerThanNode() == null &&
+                this.getEqualNode() == null &&
+                this.getGreaterThanNode() == null;
+    }
+
+    public List<Record> getData() {
         return this._data;
     }
 
-    protected KDTreeNode getLowerThanNode() {
+    public Dimension getSplitDimension() {
+        return this._splitDimension;
+    }
+
+    public DataValue getSplitValue() {
+        return this._splitValue;
+    }
+
+    public KDTreeNode[] getChildNodes() {
+        return this._childNodes;
+    }
+
+    public KDTreeNode getLowerThanNode() {
         return this._childNodes[0];
     }
 
-    protected KDTreeNode getEqualNode() {
+    public KDTreeNode getEqualNode() {
         return this._childNodes[1];
     }
 
-    protected KDTreeNode getGreaterThanNode() {
+    public KDTreeNode getGreaterThanNode() {
         return this._childNodes[2];
     }
 
@@ -61,7 +85,7 @@ public class KDTreeNode {
     }
 
     /**
-     * Returns a dimenion set reduced by the split dimension.
+     * Returns a dimension set reduced by the split dimension.
      *
      * @return
      */
@@ -82,29 +106,36 @@ public class KDTreeNode {
      * @return DataValue containg median
      */
     protected DataValue getMedian(Dimension dimension) {
-        // sort records by dimension - not the best solution!
+        // sort records by dimension
         this._data.sortByRank(dimension.AttributeIdx);
         if (this._data.size() % 2 == 0) {
+            // return upper median
             return this._data.get((int) Math.ceil(this._data.size() / 2)).get(dimension.AttributeIdx);
         } else {
             return this._data.get(this._data.size() / 2).get(dimension.AttributeIdx);
         }
     }
 
+    /**
+     * Splits a node by the given dimension into lower, equal and greater than median.
+     * @param dimension
+     */
     public void split(Dimension dimension) {
         this._splitDimension = dimension;
         // only split if there are more than one dimension
-        if (this._dimensions.length > 1 && this.getData().size() > 1) {
+        if (this._dimensions.length > 0 && this.getData().size() > 1) {
+            // get median of dimension
+            this._splitValue = this.getMedian(dimension);
+            System.out.println("Split: " + this.toString());
+
             List<Record> ltSet = new LinkedList<Record>();
             List<Record> eqSet = new LinkedList<Record>();
             List<Record> gtSet = new LinkedList<Record>();
 
-            // get median of dimension
-            final DataValue median = this.getMedian(dimension);
             // iterate over data set
             for (Record record : this._data) {
                 if (record.get(dimension.AttributeIdx).getType() == dimension.Type) {
-                    switch (record.get(dimension.AttributeIdx).getValue().compareTo(median.getValue())) {
+                    switch (record.get(dimension.AttributeIdx).getValue().compareTo(this._splitValue.getValue())) {
                         case -1:
                             ltSet.add(record);
                             break;
@@ -119,9 +150,10 @@ public class KDTreeNode {
             }
 
             // create child nodes
-            this._childNodes[0] = new KDTreeNode(this, new DataSet(ltSet), this._dimensions);
-            this._childNodes[1] = new KDTreeNode(this, new DataSet(eqSet), this.getReducedDimensionSet());
-            this._childNodes[2] = new KDTreeNode(this, new DataSet(gtSet), this._dimensions);
+            if (!ltSet.isEmpty()) this._childNodes[0] = new KDTreeNode(this, new DataSet(ltSet), this._dimensions);
+            if (!eqSet.isEmpty())
+                this._childNodes[1] = new KDTreeNode(this, new DataSet(eqSet), this.getReducedDimensionSet());
+            if (!gtSet.isEmpty()) this._childNodes[2] = new KDTreeNode(this, new DataSet(gtSet), this._dimensions);
 
             // split child nodes by subsequent dimension
             Dimension nextDim = this.getSubsequentDimension();
@@ -130,6 +162,8 @@ public class KDTreeNode {
                     node.split(nextDim);
                 }
             }
+        } else if (!this.getData().isEmpty()) {
+            this._splitValue = this._data.get(0).get(dimension.AttributeIdx);
         }
     }
 
@@ -138,6 +172,7 @@ public class KDTreeNode {
         if (this._splitDimension != null) {
             return "KDTreeNode{" +
                     "SplitDimension=" + _splitDimension +
+                    ", SplitValue=" + _splitValue.getValue() +
                     ", Data=" + _data.size() +
                     '}';
         } else {

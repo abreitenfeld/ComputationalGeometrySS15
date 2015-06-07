@@ -25,10 +25,19 @@ public class DataSet extends ArrayList<Record> {
         }
     }
 
+    /**
+     * Constructor of data set.
+     *
+     * @param records
+     */
     public DataSet(List<Record> records) {
         super(records);
     }
 
+    /**
+     * Sorts the dat set by rank.
+     * @param idx
+     */
     public void sortByRank(int idx) {
         Collections.sort(this, new RankComparator(idx));
     }
